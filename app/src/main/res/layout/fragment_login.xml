@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="0dp"
     tools:context="io.github.dnivra26.cleansweep.LoginFragment">
 
     <ListView
         android:id="@+id/issue_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:dividerHeight="0.5dp"
+        android:divider="@color/grey" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

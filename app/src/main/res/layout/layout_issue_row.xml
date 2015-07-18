@@ -2,34 +2,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:padding="10dp">
 
     <com.parse.ParseImageView
         android:id="@+id/list_issue_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"/>
 
     <TextView
         android:id="@+id/list_issue_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/list_issue_image"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="10pt"
         tools:text="Title of the issue" />
 
     <TextView
         android:id="@+id/list_issue_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:paddingTop="2dp"
         android:layout_below="@+id/list_issue_title"
         android:layout_toRightOf="@id/list_issue_image"
         tools:text="Description of the issue. Description of the issue. Description of the issue." />
+
+    <TextView
+        android:id="@+id/list_issue_bid_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_issue_description"
+        android:layout_toRightOf="@id/list_issue_image"
+        android:textColor="@android:color/black"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="5dp"
+        android:textSize="8pt"
+        android:text="Total Fund: ₹" />
 
     <TextView
         android:id="@+id/list_issue_bid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_issue_description"
-        android:layout_toRightOf="@id/list_issue_image"
+        android:layout_toRightOf="@id/list_issue_bid_label"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="5dp"
+        android:textSize="8pt"
+        android:textColor="@android:color/black"
         tools:text="250" />
 
 </RelativeLayout>

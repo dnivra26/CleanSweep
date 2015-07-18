@@ -41,9 +41,19 @@ public class MainActivity extends AppCompatActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, LoginFragment.newInstance())
-                .commit();
+        switch (position) {
+            case 0:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, LoginFragment.newInstance())
+                        .commit();
+                break;
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, ActiveTaskListFragment_.newInstance())
+                        .commit();
+                break;
+        }
+
     }
 
     public void onSectionAttached(int number) {
@@ -92,4 +102,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void onActiveTaskClick(Issue issue) {
+        ProgressTracker progressTracker = ProgressTracker.newInstance(issue);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, progressTracker)
+                .commit();
+    }
 }

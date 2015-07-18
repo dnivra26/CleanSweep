@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
+import io.github.dnivra26.cleansweep.models.Taken;
 
 public class CleanSweepApplication extends Application {
 
@@ -26,5 +27,6 @@ public class CleanSweepApplication extends Application {
 
         ParseObject.registerSubclass(Issue.class);
         ParseObject.registerSubclass(Bid.class);
+        ParseObject.registerSubclass(Taken.class);
     }
 }

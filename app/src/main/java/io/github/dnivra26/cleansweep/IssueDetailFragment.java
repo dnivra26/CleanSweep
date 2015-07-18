@@ -21,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
+import io.github.dnivra26.cleansweep.models.Taken;
 
 @EFragment(R.layout.activity_issue_detail)
 public class IssueDetailFragment extends Fragment {
@@ -99,6 +100,23 @@ public class IssueDetailFragment extends Fragment {
             getActivity().finish();
         } catch (ParseException e) {
             Toast.makeText(getActivity(), "Bid add failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Click(R.id.take_up)
+    public void signUpForTask() {
+        Taken taken = new Taken();
+        taken.setUser(ParseUser.getCurrentUser());
+        taken.setCompleted(false);
+        taken.setIssue(issue);
+        try {
+            taken.save();
+            Toast.makeText(getActivity(), "Successfully signed up for task", Toast.LENGTH_LONG).show();
+            getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+        } catch (ParseException e) {
+            Toast.makeText(getActivity(), "Failed to sign up for task", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

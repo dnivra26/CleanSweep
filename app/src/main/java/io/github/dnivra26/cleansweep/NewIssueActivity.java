@@ -3,6 +3,8 @@ package io.github.dnivra26.cleansweep;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +27,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
@@ -53,12 +57,32 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
     @Click(R.id.issue_image)
     public void takePicture() {
+        String address="";
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
         ParseGeoPoint geoPoint = getGeoPoint();
-        issueLocation.setText(geoPoint.getLatitude() + "," + geoPoint.getLongitude());
+        address=convertToAddress(geoPoint);
+        issueLocation.setText(address);
+       // issueLocation.setText(geoPoint.getLatitude() + "," + geoPoint.getLongitude());
+
     }
 
+    public String convertToAddress(ParseGeoPoint geoPoint) {
+        String address = null;
+        Geocoder geocoder;
+        geocoder = new Geocoder(this);
+        String city = null;
+        try {
+            List<Address> fromLocation = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
+            address = fromLocation.get(0).getAddressLine(0);
+            city = fromLocation.get(0).getAddressLine(1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address +","+ city;
+    }
     public ParseGeoPoint getGeoPoint() {
 
         boolean isNetworkEnabled = false;
@@ -69,7 +93,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         LocationManager locationmanager = null;
         locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         isGPSEnabled = locationmanager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        //isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 
         if (isGPSEnabled) {

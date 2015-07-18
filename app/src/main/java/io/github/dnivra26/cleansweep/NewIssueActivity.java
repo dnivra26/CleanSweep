@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import com.parse.ParseGeoPoint;
 
@@ -25,6 +26,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
 
+import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
 
 @EActivity(R.layout.activity_new_issue)
@@ -94,13 +96,32 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
     @Click(R.id.create_issue)
     public void createNewIssue() {
-        Issue newIssue = new Issue(issueTitle.getText().toString(), issueDescription.getText().toString(),
-                issueLocation.getText().toString(), issueImageFile, Float.valueOf(initialBid.getText().toString()));
+        Issue newIssue = new Issue();
+        newIssue.setTitle(issueTitle.getText().toString());
+        newIssue.setDescription(issueDescription.getText().toString());
+        newIssue.setLocation(issueLocation.getText().toString());
+        newIssue.setBid(Long.valueOf(initialBid.getText().toString()));
+        try {
+            issueImageFile.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        newIssue.setPhotoFile(issueImageFile);
 
 
         try {
             newIssue.save();
             Toast.makeText(this, "New Issue created!", Toast.LENGTH_LONG).show();
+
+            Bid bid = new Bid();
+            bid.setBid(newIssue.getBid());
+            bid.setUser(ParseUser.getCurrentUser());
+            bid.setParent(newIssue);
+
+            bid.save();
+
+
+            finish();
         } catch (ParseException e) {
             Toast.makeText(this, "Issue creation failed", Toast.LENGTH_LONG).show();
             e.printStackTrace();

@@ -1,19 +1,25 @@
 package io.github.dnivra26.cleansweep;
 
 import android.app.Fragment;
-import android.widget.ImageView;
+import android.content.Intent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.w3c.dom.Text;
 
+import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
 
 @EFragment(R.layout.activity_issue_detail)
@@ -36,6 +42,12 @@ public class IssueDetailFragment extends Fragment {
     @ViewById(R.id.label_total_bid)
     TextView issueBid;
 
+    @ViewById(R.id.add_fund_layout)
+    LinearLayout addFundLayout;
+
+    @ViewById(R.id.new_bid_amount)
+    EditText newBidAmount;
+
     public static IssueDetailFragment newInstance(Issue issue) {
         IssueDetailFragment issueDetailFragment = new IssueDetailFragment_();
         issueDetailFragment.setIssue(issue);
@@ -47,7 +59,7 @@ public class IssueDetailFragment extends Fragment {
     }
 
     @AfterViews
-    public void init(){
+    public void init() {
         issueTitle.setText(issue.getTitle());
         issueDescription.setText(issue.getDescription());
         issueLocation.setText(issue.getLocation());
@@ -62,6 +74,32 @@ public class IssueDetailFragment extends Fragment {
                     // nothing to do
                 }
             });
+        }
+    }
+
+    @Click(R.id.add_bid)
+    public void addBidToIssue() {
+        addFundLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Click(R.id.add_fund_ok)
+    public void addFundConfirm() {
+        Bid bid = new Bid();
+        bid.setBid(Long.valueOf(newBidAmount.getText().toString()));
+        bid.setUser(ParseUser.getCurrentUser());
+        bid.setParent(issue);
+
+        try {
+            bid.save();
+            issue.setBid(issue.getBid() + bid.getBid());
+            issue.save();
+            Toast.makeText(getActivity(), "Bid added successfully", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), MainActivity.class));
+
+            getActivity().finish();
+        } catch (ParseException e) {
+            Toast.makeText(getActivity(), "Bid add failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 

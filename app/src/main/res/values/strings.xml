@@ -30,6 +30,7 @@
     <string name="title_activity_issue_detail">IssueDetailActivity</string>
     <string name="add_fund">Add Fund</string>
     <string name="take_up_issue">take up issue</string>
+    <string name="ok">ok</string>
 
 
 </resources>

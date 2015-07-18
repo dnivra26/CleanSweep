@@ -44,6 +44,27 @@
         android:layout_height="wrap_content"
         android:text="@string/add_fund" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_fund_layout"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/new_bid_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/bid_hint" />
+
+        <Button
+            android:id="@+id/add_fund_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/take_up"
         android:layout_width="match_parent"

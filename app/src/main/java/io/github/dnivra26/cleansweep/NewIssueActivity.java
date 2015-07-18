@@ -61,10 +61,11 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
         ParseGeoPoint geoPoint = getGeoPoint();
-        address=convertToAddress(geoPoint);
-        issueLocation.setText(address);
-       // issueLocation.setText(geoPoint.getLatitude() + "," + geoPoint.getLongitude());
-
+        if (geoPoint.getLongitude() > 1) {
+            address = convertToAddress(geoPoint);
+            issueLocation.setText(address);
+            // issueLocation.setText(geoPoint.getLatitude() + "," + geoPoint.getLongitude());
+        }
     }
 
     public String convertToAddress(ParseGeoPoint geoPoint) {
@@ -93,7 +94,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         LocationManager locationmanager = null;
         locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         isGPSEnabled = locationmanager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        //isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 
         if (isGPSEnabled) {
@@ -102,11 +103,16 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
             if (locationmanager != null) {
                 location = locationmanager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                point.setLongitude(longitude);
-                point.setLatitude(latitude);
+                if(location!=null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    point.setLongitude(longitude);
+                    point.setLatitude(latitude);
+                }
+                else
+                {
+                    return point;
+                }
             }
 
         }

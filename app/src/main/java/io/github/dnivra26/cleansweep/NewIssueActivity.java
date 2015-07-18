@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
 
+import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
 
 @EActivity(R.layout.activity_new_issue)
@@ -67,6 +69,16 @@ public class NewIssueActivity extends AppCompatActivity {
         try {
             newIssue.save();
             Toast.makeText(this, "New Issue created!", Toast.LENGTH_LONG).show();
+
+            Bid bid = new Bid();
+            bid.setBid(newIssue.getBid());
+            bid.setUser(ParseUser.getCurrentUser());
+            bid.setParent(newIssue);
+
+            bid.save();
+
+
+            finish();
         } catch (ParseException e) {
             Toast.makeText(this, "Issue creation failed", Toast.LENGTH_LONG).show();
             e.printStackTrace();

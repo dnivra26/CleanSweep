@@ -7,6 +7,8 @@
 
         <item name="colorPrimary">@color/base_blue</item>
         <item name="colorPrimaryDark">@color/base_blue_dark</item>
+        <item name="android:colorAccent">@color/buttonNormal</item>
+        <item name="colorAccent">@color/buttonNormal</item>
 
     </style>
 </resources>

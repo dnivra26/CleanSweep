@@ -22,6 +22,11 @@
     <string name="LoginBtn">Login</string>
     <string name="SignupBtn">Sign Up</string>
     <string name="title_activity_new_issue">New Issue</string>
+    <string name="title_hint">enter title</string>
+    <string name="description_hint">enter description</string>
+    <string name="bid_hint">enter bid amount in Rs.</string>
+    <string name="create">create</string>
+    <string name="location_hint">enter issue location</string>
 
 
 </resources>

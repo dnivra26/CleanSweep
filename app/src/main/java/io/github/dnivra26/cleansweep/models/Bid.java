@@ -18,6 +18,6 @@ import lombok.Setter;
 @ParseClassName("Bid")
 public class Bid extends ParseObject{
     private long issueId;
-    private ParseUser username;
+    private ParseUser user;
     private float amount;
 }

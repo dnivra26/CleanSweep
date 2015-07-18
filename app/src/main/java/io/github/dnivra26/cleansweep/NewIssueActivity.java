@@ -51,8 +51,17 @@ public class NewIssueActivity extends AppCompatActivity {
 
     @Click(R.id.create_issue)
     public void createNewIssue() {
-        Issue newIssue = new Issue(issueTitle.getText().toString(), issueDescription.getText().toString(),
-                issueLocation.getText().toString(), issueImageFile, Float.valueOf(initialBid.getText().toString()));
+        Issue newIssue = new Issue();
+        newIssue.setTitle(issueTitle.getText().toString());
+        newIssue.setDescription(issueDescription.getText().toString());
+        newIssue.setLocation(issueLocation.getText().toString());
+        newIssue.setBid(Long.valueOf(initialBid.getText().toString()));
+        try {
+            issueImageFile.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        newIssue.setPhotoFile(issueImageFile);
 
 
         try {

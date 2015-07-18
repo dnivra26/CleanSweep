@@ -10,63 +10,48 @@ import com.parse.ParseObject;
 
 @ParseClassName("Issue")
 public class Issue extends ParseObject {
-    private String title;
-    private String description;
-    private String location;
-    private ParseFile photo;
-    private float bid;
-
     public Issue() {
 
     }
 
-    public Issue(String title, String description, String location, ParseFile photo, float bid) {
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.photo = photo;
-        this.bid = bid;
-    }
-
     public String getTitle() {
-
-        return title;
+        return getString("title");
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        put("title", title);
     }
 
     public String getDescription() {
-        return description;
+        return getString("description");
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        put("description", description);
     }
 
     public String getLocation() {
-        return location;
+        return getString("location");
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        put("location", location);
     }
 
-    public ParseFile getPhoto() {
-        return photo;
+    public ParseFile getPhotoFile() {
+        return getParseFile("photo");
     }
 
-    public void setPhoto(ParseFile photo) {
-        this.photo = photo;
+    public void setPhotoFile(ParseFile photo) {
+        put("photo", photo);
     }
 
-    public float getBid() {
-        return bid;
+    public long getBid() {
+        return getLong("bid");
     }
 
     public void setBid(float bid) {
-        this.bid = bid;
+        put("bid", bid);
     }
 
 

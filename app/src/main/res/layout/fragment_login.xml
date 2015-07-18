@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="12dp"
-        android:src="@drawable/ic_add_black"
+        android:src="@drawable/ic_add_white_2"
         app:backgroundTint="@color/base_blue"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp" />

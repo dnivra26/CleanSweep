@@ -15,7 +15,12 @@ public class Taken extends ParseObject {
 
     }
 
+    public void setIssueId(String issueId) {
+        put("issueId", issueId);
+    }
+
     public void setIssue(Issue issue) {
+        setIssueId(issue.getObjectId());
         put("issue", issue);
     }
 

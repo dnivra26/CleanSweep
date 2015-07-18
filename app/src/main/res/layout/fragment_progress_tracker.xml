@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    android:orientation="vertical"
     tools:context="io.github.dnivra26.cleansweep.ProgressTracker">
 
-    <ImageView
+
+    <com.parse.ParseImageView
         android:id="@+id/issue_status_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -17,11 +18,11 @@
 
     <TextView
         android:id="@+id/issue_title"
-        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textSize="10pt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/work_description"
@@ -37,24 +38,29 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/save_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="2.5dp"
-            android:textColor="@android:color/white"
+            android:layout_weight="1"
             android:background="@color/buttonNormal"
-            android:text="@string/save" />
+
+            android:text="@string/save"
+
+            android:textColor="@android:color/white" />
 
         <Button
+            android:id="@+id/submit_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:layout_marginLeft="2.5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@android:color/white"
+            android:layout_weight="1"
             android:background="@color/buttonNormal"
-            android:text="@string/submit" />
+            android:text="@string/submit"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 

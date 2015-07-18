@@ -4,11 +4,11 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.ParsePush;
-import com.parse.SaveCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
@@ -23,7 +23,7 @@ public class CleanSweepApplication extends Application {
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
-
+        defaultACL.setPublicWriteAccess(true);
         defaultACL.setPublicReadAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
@@ -31,7 +31,7 @@ public class CleanSweepApplication extends Application {
         ParseObject.registerSubclass(Issue.class);
         ParseObject.registerSubclass(Bid.class);
         ParseObject.registerSubclass(Taken.class);
-        
+
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {

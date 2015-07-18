@@ -13,46 +13,69 @@
         android:padding="30dp"
         android:src="@drawable/camera_icon" />
 
-    <EditText
-        android:id="@+id/issue_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:hint="@string/title_hint" />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/issue_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ems="10"
-        android:paddingTop="10dp"
-        android:hint="@string/description_hint"
-        android:inputType="textMultiLine" />
+        <EditText
+            android:id="@+id/issue_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:paddingTop="10dp" />
 
-    <EditText
-        android:id="@+id/issue_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:hint="@string/location_hint" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/initial_bid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:hint="@string/bid_hint"
-        android:inputType="number" />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/issue_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:paddingTop="10dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/issue_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location"
+            android:paddingTop="10dp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/initial_bid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Amount"
+            android:inputType="number"
+            android:paddingTop="10dp" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:paddingTop="0dp"
         android:id="@+id/create_issue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
         android:background="@color/buttonNormal"
-        android:text="@string/create" />
+        android:paddingTop="0dp"
+        android:text="@string/create"
+        android:textColor="@android:color/white" />
 
 
 </LinearLayout>

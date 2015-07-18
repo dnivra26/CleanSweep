@@ -40,4 +40,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     compile 'com.android.support:design:22.2.0'
+    compile 'com.parse.bolts:bolts-android:1.+'
 }

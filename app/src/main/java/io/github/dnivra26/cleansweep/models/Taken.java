@@ -19,7 +19,7 @@ public class Taken extends ParseObject {
         put("issue", issue);
     }
 
-    public Issue getParent() {
+    public Issue getIssue() {
         return (Issue) getParseObject("issue");
     }
 

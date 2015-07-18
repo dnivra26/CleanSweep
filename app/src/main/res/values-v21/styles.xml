@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light">
         <item name="android:colorPrimary">@color/base_blue</item>
         <item name="android:colorPrimaryDark">@color/base_blue_dark</item>
-        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="colorPrimary">@color/base_blue</item>
+        <item name="colorPrimaryDark">@color/base_blue_dark</item>
+
     </style>
 </resources>

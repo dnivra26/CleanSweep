@@ -92,7 +92,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         double latitude,longitude;
         ParseGeoPoint point =new ParseGeoPoint();
         LocationManager locationmanager = null;
-        locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationmanager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         isGPSEnabled = locationmanager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 

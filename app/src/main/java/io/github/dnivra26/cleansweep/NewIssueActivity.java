@@ -1,7 +1,12 @@
 package io.github.dnivra26.cleansweep;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +17,8 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
+import com.parse.ParseGeoPoint;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -21,7 +28,7 @@ import java.io.ByteArrayOutputStream;
 import io.github.dnivra26.cleansweep.models.Issue;
 
 @EActivity(R.layout.activity_new_issue)
-public class NewIssueActivity extends AppCompatActivity {
+public class NewIssueActivity extends AppCompatActivity implements LocationListener{
 
 
     ParseFile issueImageFile;
@@ -46,6 +53,42 @@ public class NewIssueActivity extends AppCompatActivity {
     public void takePicture() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
+        ParseGeoPoint geoPoint = getGeoPoint();
+        issueLocation.setText(geoPoint.getLatitude() + "," + geoPoint.getLongitude());
+    }
+
+    public ParseGeoPoint getGeoPoint() {
+
+        boolean isNetworkEnabled = false;
+        boolean isGPSEnabled = false;
+        Location location=null;
+        double latitude,longitude;
+        ParseGeoPoint point =new ParseGeoPoint();
+        LocationManager locationmanager = null;
+        locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        isGPSEnabled = locationmanager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworkEnabled = locationmanager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+
+        if (isGPSEnabled) {
+
+            locationmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+            if (locationmanager != null) {
+                location = locationmanager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                point.setLongitude(longitude);
+                point.setLatitude(latitude);
+            }
+
+        }
+
+
+
+         return point;
+
 
     }
 
@@ -98,5 +141,25 @@ public class NewIssueActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

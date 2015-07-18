@@ -20,6 +20,7 @@ public class Bid extends ParseObject {
     }
 
     public void setParent(Issue issue) {
+        setIssueId(issue.getObjectId());
         put("parent", issue);
     }
 
@@ -33,6 +34,10 @@ public class Bid extends ParseObject {
 
     public ParseUser getUser() {
         return getParseUser("user");
+    }
+
+    public void setIssueId(String issueId) {
+        put("issueId", issueId);
     }
 
 }

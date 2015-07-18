@@ -20,6 +20,7 @@
         <EditText
             android:id="@+id/issue_title"
             android:layout_width="match_parent"
+            android:textColor="@android:color/black"
             android:layout_height="wrap_content"
             android:hint="Title"
             android:paddingTop="10dp" />
@@ -35,6 +36,7 @@
             android:id="@+id/issue_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
             android:ems="10"
             android:hint="Description"
@@ -51,6 +53,7 @@
             android:id="@+id/issue_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:hint="Location"
             android:paddingTop="10dp" />
     </android.support.design.widget.TextInputLayout>
@@ -63,6 +66,7 @@
             android:id="@+id/initial_bid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:hint="Amount"
             android:inputType="number"
             android:paddingTop="10dp" />

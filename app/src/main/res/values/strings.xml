@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">CleanSweep</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Active Task</string>
     <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -27,6 +27,12 @@
     <string name="bid_hint">enter bid amount in Rs.</string>
     <string name="create">create</string>
     <string name="location_hint">enter issue location</string>
+    <string name="title_activity_issue_detail">IssueDetailActivity</string>
+    <string name="add_fund">Add Fund</string>
+    <string name="take_up_issue">take up issue</string>
+    <string name="ok">ok</string>
+    <string name="save">save</string>
+    <string name="submit">submit</string>
 
 
 </resources>

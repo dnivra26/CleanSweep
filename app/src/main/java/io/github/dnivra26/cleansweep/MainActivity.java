@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.github.dnivra26.cleansweep.models.Issue;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -41,9 +43,19 @@ public class MainActivity extends AppCompatActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, LoginFragment.newInstance())
-                .commit();
+        switch (position) {
+            case 0:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, LoginFragment.newInstance())
+                        .commit();
+                break;
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, ActiveTaskListFragment_.newInstance())
+                        .commit();
+                break;
+        }
+
     }
 
     public void onSectionAttached(int number) {
@@ -58,6 +70,14 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section3);
                 break;
         }
+    }
+
+    public void onIssueClicked(Issue issue) {
+        IssueDetailFragment issueDetailFragment = IssueDetailFragment.newInstance(issue);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, issueDetailFragment)
+                .commit();
     }
 
     public void restoreActionBar() {
@@ -84,4 +104,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void onActiveTaskClick(Issue issue) {
+        ProgressTracker progressTracker = ProgressTracker.newInstance(issue);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, progressTracker)
+                .commit();
+    }
 }

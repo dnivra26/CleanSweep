@@ -9,7 +9,10 @@ import android.widget.ListView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+
+import io.github.dnivra26.cleansweep.models.Issue;
 
 
 /**
@@ -32,6 +35,11 @@ public class LoginFragment extends Fragment {
 
     public static LoginFragment newInstance() {
         return new LoginFragment_();
+    }
+
+    @ItemClick(R.id.issue_list)
+    public void onIssueClick(Issue issue) {
+        ((MainActivity) getActivity()).onIssueClicked(issue);
     }
 
     @Click(R.id.fab)

@@ -6,6 +6,9 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
+import com.parse.ParseException;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
@@ -26,5 +29,16 @@ public class CleanSweepApplication extends Application {
 
         ParseObject.registerSubclass(Issue.class);
         ParseObject.registerSubclass(Bid.class);
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+
+                } else {
+
+                }
+            }
+        });
+
     }
 }

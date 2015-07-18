@@ -65,6 +65,7 @@ public class ProgressTracker extends Fragment {
     public void init() {
         activeIssueTitle.setText(issue.getTitle());
         ParseQuery parseQuery = new ParseQuery("Taken");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Working Issue");
         parseQuery.whereEqualTo("issue", issue);
 
         try {

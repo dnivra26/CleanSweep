@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment {
 
     @AfterViews
     public void init() {
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Issue List");
         IssueListAdapter issueListAdapter = new IssueListAdapter(getActivity());
         issueList.setAdapter(issueListAdapter);
         issueListAdapter.notifyDataSetChanged();

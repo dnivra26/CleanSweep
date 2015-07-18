@@ -47,6 +47,7 @@ public class ActiveTaskListFragment extends Fragment {
         ActiveTaskListAdapter activeTaskListAdapter = new ActiveTaskListAdapter(getActivity());
         activeTaskList.setAdapter(activeTaskListAdapter);
         activeTaskListAdapter.notifyDataSetChanged();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Active Issues");
     }
 
 

@@ -65,6 +65,7 @@ public class IssueDetailFragment extends Fragment {
         issueDescription.setText(issue.getDescription());
         issueLocation.setText(issue.getLocation());
         issueBid.setText(String.valueOf(issue.getBid()));
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Issue Detail");
 
         ParseFile photoFile = issue.getParseFile("photo");
         if (photoFile != null) {

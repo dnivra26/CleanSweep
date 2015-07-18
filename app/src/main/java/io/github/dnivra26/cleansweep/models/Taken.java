@@ -15,7 +15,7 @@ public class Taken extends ParseObject {
 
     }
 
-    public void setParent(Issue issue) {
+    public void setIssue(Issue issue) {
         put("issue", issue);
     }
 

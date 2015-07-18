@@ -4,7 +4,11 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import io.github.dnivra26.cleansweep.models.Bid;
+import io.github.dnivra26.cleansweep.models.Issue;
 
 public class CleanSweepApplication extends Application {
 
@@ -19,5 +23,8 @@ public class CleanSweepApplication extends Application {
         defaultACL.setPublicReadAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
+
+        ParseObject.registerSubclass(Issue.class);
+        ParseObject.registerSubclass(Bid.class);
     }
 }

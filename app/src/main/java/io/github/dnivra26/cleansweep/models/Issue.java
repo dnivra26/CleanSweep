@@ -6,6 +6,9 @@ package io.github.dnivra26.cleansweep.models;
 
 import android.graphics.Bitmap;
 
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +16,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class Issue {
-    private long issueId;
+public class Issue extends ParseObject {
     private String title;
+    private String description;
     private String location;
-    private Bitmap photo;
+    private ParseFile photo;
     private float bid;
 }

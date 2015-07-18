@@ -1,5 +1,9 @@
 package io.github.dnivra26.cleansweep.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +15,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class Bid {
-    private long bidId;
+@ParseClassName("Bid")
+public class Bid extends ParseObject{
     private long issueId;
-    private String username;
+    private ParseUser username;
     private float amount;
 }

@@ -1,7 +1,5 @@
 package io.github.dnivra26.cleansweep;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -61,8 +59,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }

@@ -26,6 +26,26 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordEditText;
 
 
+    @Click(R.id.login)
+    public void login() {
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        try {
+            ParseUser.logIn(username, password);
+            Toast.makeText(getApplicationContext(),
+                    "Successfully Logged In",
+                    Toast.LENGTH_LONG).show();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+        } catch (ParseException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Log in Error", Toast.LENGTH_LONG)
+                    .show();
+            e.printStackTrace();
+        }
+    }
+
     @Click(R.id.signup)
     public void signUp() {
         String username = usernameEditText.getText().toString();

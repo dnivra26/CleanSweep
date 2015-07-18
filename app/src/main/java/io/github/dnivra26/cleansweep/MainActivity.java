@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.github.dnivra26.cleansweep.models.Issue;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -56,6 +58,14 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section3);
                 break;
         }
+    }
+
+    public void onIssueClicked(Issue issue) {
+        IssueDetailFragment issueDetailFragment = IssueDetailFragment.newInstance(issue);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, issueDetailFragment)
+                .commit();
     }
 
     public void restoreActionBar() {

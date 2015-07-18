@@ -27,6 +27,9 @@
     <string name="bid_hint">enter bid amount in Rs.</string>
     <string name="create">create</string>
     <string name="location_hint">enter issue location</string>
+    <string name="title_activity_issue_detail">IssueDetailActivity</string>
+    <string name="add_fund">Add Fund</string>
+    <string name="take_up_issue">take up issue</string>
 
 
 </resources>

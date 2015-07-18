@@ -5,17 +5,42 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.ByteArrayOutputStream;
+
+import io.github.dnivra26.cleansweep.models.Issue;
+
 @EActivity(R.layout.activity_new_issue)
 public class NewIssueActivity extends AppCompatActivity {
 
+
+    ParseFile issueImageFile;
+
     @ViewById(R.id.issue_image)
     ImageView issueImage;
+
+    @ViewById(R.id.issue_title)
+    EditText issueTitle;
+
+    @ViewById(R.id.issue_description)
+    EditText issueDescription;
+
+    @ViewById(R.id.issue_location)
+    EditText issueLocation;
+
+    @ViewById(R.id.initial_bid)
+    EditText initialBid;
+
 
     @Click(R.id.issue_image)
     public void takePicture() {
@@ -24,11 +49,33 @@ public class NewIssueActivity extends AppCompatActivity {
 
     }
 
+    @Click(R.id.create_issue)
+    public void createNewIssue() {
+        Issue newIssue = new Issue(issueTitle.getText().toString(), issueDescription.getText().toString(),
+                issueLocation.getText().toString(), issueImageFile, Float.valueOf(initialBid.getText().toString()));
+
+
+        try {
+            newIssue.save();
+            Toast.makeText(this, "New Issue created!", Toast.LENGTH_LONG).show();
+        } catch (ParseException e) {
+            Toast.makeText(this, "Issue creation failed", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap bp = (Bitmap) data.getExtras().get("data");
         issueImage.setImageBitmap(bp);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+
+        issueImageFile = new ParseFile("issue_image.jpg", byteArray);
     }
 
     @Override

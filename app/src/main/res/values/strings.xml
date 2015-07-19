@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CleanSweep</string>
+    <string name="app_name">My Community</string>
 
     <string name="title_section1">Home</string>
     <string name="title_section2">Active Tasks</string>
@@ -33,6 +33,7 @@
     <string name="save">save</string>
     <string name="submit">submit</string>
     <string name="title_activity_confirm">ConfirmActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 
 </resources>

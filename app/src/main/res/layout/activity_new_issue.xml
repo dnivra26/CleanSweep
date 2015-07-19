@@ -1,85 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp"
-    tools:context="io.github.dnivra26.cleansweep.NewIssueActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/issue_image"
+
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:padding="30dp"
-        android:src="@drawable/camera_icon" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/issue_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:textColor="@android:color/black"
-            android:layout_height="wrap_content"
-            android:hint="Title"
-            android:paddingTop="10dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            tools:context="io.github.dnivra26.cleansweep.NewIssueActivity">
 
-    </android.support.design.widget.TextInputLayout>
+            <ImageView
+                android:id="@+id/issue_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:padding="30dp"
+                android:src="@drawable/camera_icon" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
+                <EditText
+                    android:id="@+id/issue_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/black" />
 
-        <EditText
-            android:id="@+id/issue_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:hint="Description"
-            android:inputType="textMultiLine"
-            android:paddingTop="10dp" />
+            </android.support.design.widget.TextInputLayout>
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/issue_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:hint="Location"
-            android:paddingTop="10dp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/initial_bid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:hint="Amount"
-            android:inputType="number"
-            android:paddingTop="10dp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/create_issue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/buttonNormal"
-        android:paddingTop="0dp"
-        android:text="@string/create"
-        android:textColor="@android:color/white" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
 
-</LinearLayout>
+                <EditText
+                    android:id="@+id/issue_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/black" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/issue_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/black" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/initial_bid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount"
+                    android:inputType="number"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/black" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/create_issue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/buttonNormal"
+                android:paddingTop="0dp"
+                android:text="@string/create"
+                android:textColor="@android:color/white" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

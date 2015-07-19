@@ -39,11 +39,11 @@ public class PushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
         if (split.length > 1) {
             intent1.putExtra("task_id", split[1]);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(intent1);
         }
 
 
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent1);
     }
 
     @Override

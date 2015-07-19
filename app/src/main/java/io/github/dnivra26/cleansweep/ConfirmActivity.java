@@ -126,6 +126,13 @@ public class ConfirmActivity extends AppCompatActivity {
                     query.whereEqualTo("username", parseUser.getUsername());
                     parsePush.setQuery(query);
                     parsePush.sendInBackground();
+
+                    taken.getIssue().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            ((Issue) parseObject).deleteInBackground();
+                        }
+                    });
                 } else {
                     Toast.makeText(ConfirmActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -150,6 +157,15 @@ public class ConfirmActivity extends AppCompatActivity {
                     query.whereEqualTo("username", parseUser.getUsername());
                     parsePush.setQuery(query);
                     parsePush.sendInBackground();
+
+                    taken.getIssue().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            ((Issue) parseObject).deleteInBackground();
+                        }
+                    });
+
+
                 } else {
                     Toast.makeText(ConfirmActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }

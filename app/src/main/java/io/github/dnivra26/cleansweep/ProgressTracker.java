@@ -1,19 +1,25 @@
 package io.github.dnivra26.cleansweep;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -67,29 +73,51 @@ public class ProgressTracker extends Fragment {
 
     @AfterViews
     public void init() {
-        activeIssueTitle.setText(issue.getTitle());
-        ParseQuery parseQuery = new ParseQuery("Taken");
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Working Issue");
+        activeIssueTitle.setText(issue.getTitle());
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
+        progressDialog.show();
+
+        ParseQuery parseQuery = new ParseQuery("Taken");
         parseQuery.whereEqualTo("issue", issue);
 
-        try {
-            Taken taken = (Taken) parseQuery.find().get(0);
-            workDescription.setText(taken.getDescription());
+        parseQuery.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                Taken taken = (Taken) list.get(0);
+                workDescription.setText(taken.getDescription());
 
-            ParseFile photoFile = taken.getParseFile("photo");
-            if (photoFile != null) {
-                issueStatusImage.setParseFile(photoFile);
-                issueStatusImage.loadInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        // nothing to do
-                    }
-                });
+                ParseFile photoFile = taken.getParseFile("photo");
+                if (photoFile != null) {
+                    issueStatusImage.setParseFile(photoFile);
+                    issueStatusImage.loadInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            // nothing to do
+                        }
+                    });
+                }
+                progressDialog.dismiss();
             }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void done(Object o, Throwable throwable) {
+                Taken taken = (Taken) ((List) o).get(0);
+                workDescription.setText(taken.getDescription());
+
+                ParseFile photoFile = taken.getParseFile("photo");
+                if (photoFile != null) {
+                    issueStatusImage.setParseFile(photoFile);
+                    issueStatusImage.loadInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            // nothing to do
+                        }
+                    });
+                }
+                progressDialog.dismiss();
+            }
+        });
 
     }
 
@@ -112,58 +140,117 @@ public class ProgressTracker extends Fragment {
 
     @Click(R.id.save_work)
     public void saveWork() {
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
+        progressDialog.show();
+
         ParseQuery parseQuery = new ParseQuery("Taken");
         parseQuery.whereEqualTo("issue", issue);
 
-        try {
-            Taken taken = (Taken) parseQuery.find().get(0);
-            workImageFile.save();
-            taken.setPhotoFile(workImageFile);
-            taken.setDescription(workDescription.getText().toString());
-            taken.save();
-            Toast.makeText(getActivity(), "Successfully Saved", Toast.LENGTH_SHORT).show();
-        } catch (ParseException e) {
-            Toast.makeText(getActivity(), "Save Failed", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+        parseQuery.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                return;
+            }
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                final Taken taken = (Taken) ((List) o).get(0);
+                workImageFile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            taken.setPhotoFile(workImageFile);
+                            taken.setDescription(workDescription.getText().toString());
+                            taken.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getActivity(), "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getActivity(), "Save Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getActivity(), "Save Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                progressDialog.dismiss();
+            }
+        });
+
     }
 
     @Click(R.id.submit_work)
     public void submitWork() {
+        ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
+        progressDialog.show();
+
         ParseQuery parseQuery = new ParseQuery("Taken");
         parseQuery.whereEqualTo("issue", issue);
 
-        try {
-            Taken taken = (Taken) parseQuery.find().get(0);
-            workImageFile.save();
-            taken.setPhotoFile(workImageFile);
-            taken.setDescription(workDescription.getText().toString());
-            taken.setCompleted(true);
-            taken.save();
+        parseQuery.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
 
-
-            ParseQuery parseQuery2 = new ParseQuery("Bid");
-            parseQuery2.whereEqualTo("issueId", issue.getObjectId());
-
-            List<Bid> bidList = parseQuery2.find();
-
-            for (Bid bid : bidList) {
-
-                ParsePush parsePush = new ParsePush();
-                parsePush.setMessage(issue.getTitle() + "has been completed");
-                ParseQuery query = ParseInstallation.getQuery();
-                query.whereEqualTo("username", bid.getUser().fetchIfNeeded().getUsername());
-                parsePush.setQuery(query);
-                parsePush.send();
             }
 
+            @Override
+            public void done(Object o, Throwable throwable) {
+                final Taken taken = (Taken) ((List) o).get(0);
+                workImageFile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            taken.setPhotoFile(workImageFile);
+                            taken.setDescription(workDescription.getText().toString());
+                            taken.setCompleted(true);
+                            taken.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getActivity(), "Successfully submitted", Toast.LENGTH_SHORT).show();
+                                        ParseQuery parseQuery2 = new ParseQuery("Bid");
+                                        parseQuery2.whereEqualTo("issueId", issue.getObjectId());
+                                        parseQuery2.findInBackground(new FindCallback() {
+                                            @Override
+                                            public void done(List list, ParseException e) {
 
-            Toast.makeText(getActivity(), "Successfully submitted", Toast.LENGTH_SHORT).show();
-            getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
-            getActivity().finish();
-        } catch (ParseException e) {
-            Toast.makeText(getActivity(), "Submit Failed", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+                                            }
+
+                                            @Override
+                                            public void done(Object o, Throwable throwable) {
+                                                for (Object o1 : ((List) o)) {
+                                                    Bid bid = ((Bid) o1);
+                                                    final ParsePush parsePush = new ParsePush();
+                                                    parsePush.setMessage(issue.getTitle() + "has been completed");
+                                                    final ParseQuery query = ParseInstallation.getQuery();
+                                                    bid.getUser().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                                                        @Override
+                                                        public void done(ParseObject parseObject, ParseException e) {
+                                                            query.whereEqualTo("username", ((ParseUser) parseObject).getUsername());
+                                                            parsePush.setQuery(query);
+                                                            parsePush.sendInBackground();
+                                                        }
+                                                    });
+
+                                                }
+                                                getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+                                                getActivity().finish();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(getActivity(), "Submit Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+            }
+        });
     }
 }

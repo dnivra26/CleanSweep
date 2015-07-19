@@ -2,7 +2,7 @@
     <string name="app_name">CleanSweep</string>
 
     <string name="title_section1">Home</string>
-    <string name="title_section2">Active Task</string>
+    <string name="title_section2">Active Tasks</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

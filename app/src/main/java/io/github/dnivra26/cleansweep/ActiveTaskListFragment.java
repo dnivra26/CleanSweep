@@ -1,15 +1,21 @@
 package io.github.dnivra26.cleansweep;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 import io.github.dnivra26.cleansweep.models.Issue;
 import io.github.dnivra26.cleansweep.models.Taken;
@@ -20,6 +26,9 @@ public class ActiveTaskListFragment extends Fragment {
 
     @ViewById(R.id.active_task_list)
     ListView activeTaskList;
+
+    @ViewById(R.id.no_active_issues_label)
+    TextView noActiveIssuesLabel;
 
     public static ActiveTaskListFragment newInstance() {
         ActiveTaskListFragment fragment = new ActiveTaskListFragment_();
@@ -44,10 +53,24 @@ public class ActiveTaskListFragment extends Fragment {
 
     @AfterViews
     public void init() {
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
         ActiveTaskListAdapter activeTaskListAdapter = new ActiveTaskListAdapter(getActivity());
+        activeTaskListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Taken>() {
+            @Override
+            public void onLoading() {
+                progressDialog.show();
+            }
+
+            @Override
+            public void onLoaded(List<Taken> list, Exception e) {
+                if (list.size() > 0) {
+                    noActiveIssuesLabel.setVisibility(View.GONE);
+                }
+                progressDialog.dismiss();
+            }
+        });
         activeTaskList.setAdapter(activeTaskListAdapter);
-        activeTaskListAdapter.notifyDataSetChanged();
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Active Issues");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Active Tasks");
     }
 
 

@@ -8,4 +8,13 @@
        android:layout_height="match_parent"
        android:id="@+id/active_task_list"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/no_active_issues_label"
+        android:text="No Signed up tasks yet!!"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
 </FrameLayout>

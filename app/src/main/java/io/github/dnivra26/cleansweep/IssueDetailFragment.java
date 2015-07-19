@@ -131,7 +131,7 @@ public class IssueDetailFragment extends Fragment {
             for (Bid bid : bidList) {
 
                 ParsePush parsePush = new ParsePush();
-                parsePush.setMessage("Activity Taken Up");
+                parsePush.setMessage(issue.getTitle() + "has been Taken Up");
                 ParseQuery query = ParseInstallation.getQuery();
                 query.whereEqualTo("username", bid.getUser().fetchIfNeeded().getUsername());
                 parsePush.setQuery(query);

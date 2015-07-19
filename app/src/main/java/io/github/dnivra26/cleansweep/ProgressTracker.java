@@ -11,6 +11,8 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import org.androidannotations.annotations.AfterViews;
@@ -19,7 +21,9 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
+import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
 import io.github.dnivra26.cleansweep.models.Taken;
 
@@ -133,6 +137,24 @@ public class ProgressTracker extends Fragment {
             taken.setDescription(workDescription.getText().toString());
             taken.setCompleted(true);
             taken.save();
+
+
+            ParseQuery parseQuery2 = new ParseQuery("Bid");
+            parseQuery2.whereEqualTo("issueId", issue.getObjectId());
+
+            List<Bid> bidList = parseQuery2.find();
+
+            for (Bid bid : bidList) {
+
+                ParsePush parsePush = new ParsePush();
+                parsePush.setMessage(issue.getTitle() + "has been completed");
+                ParseQuery query = ParseInstallation.getQuery();
+                query.whereEqualTo("username", bid.getUser().fetchIfNeeded().getUsername());
+                parsePush.setQuery(query);
+                parsePush.send();
+            }
+
+
             Toast.makeText(getActivity(), "Successfully submitted", Toast.LENGTH_SHORT).show();
             getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
             getActivity().finish();

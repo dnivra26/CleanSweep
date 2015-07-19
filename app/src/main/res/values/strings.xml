@@ -32,6 +32,7 @@
     <string name="ok">ok</string>
     <string name="save">save</string>
     <string name="submit">submit</string>
+    <string name="title_activity_confirm">ConfirmActivity</string>
 
 
 </resources>

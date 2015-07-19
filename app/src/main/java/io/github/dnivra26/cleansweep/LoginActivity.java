@@ -1,5 +1,6 @@
 package io.github.dnivra26.cleansweep;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -32,24 +36,29 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        try {
-            ParseUser.logIn(username, password);
-            Toast.makeText(getApplicationContext(),
-                    "Successfully Logged In",
-                    Toast.LENGTH_LONG).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-        } catch (ParseException e) {
-            Toast.makeText(getApplicationContext(),
-                    "Log in Error", Toast.LENGTH_LONG)
-                    .show();
-            e.printStackTrace();
-        }
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+        progressDialog.show();
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Successfully Logged In",
+                            Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Log in Error", Toast.LENGTH_LONG)
+                            .show();
+                }
+                progressDialog.dismiss();
+            }
+        });
     }
 
     @Click(R.id.signup)
     public void signUp() {
-        String username = usernameEditText.getText().toString();
+        final String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         if (username.equals("") && password.equals("")) {
@@ -62,23 +71,39 @@ public class LoginActivity extends AppCompatActivity {
 
             user.setUsername(username);
             user.setPassword(password);
-            try {
-                user.signUp();
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                installation.put("username", username);
-                installation.save();
-                Toast.makeText(getApplicationContext(),
-                        "Successfully Signed up, please log in.",
-                        Toast.LENGTH_LONG).show();
 
+            final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+            progressDialog.show();
 
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        installation.put("username", username);
+                        installation.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Successfully Signed up, please log in.",
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Sign up Error", Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Sign up Error", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    progressDialog.dismiss();
+                }
+            });
 
-            } catch (ParseException e) {
-                Toast.makeText(getApplicationContext(),
-                        "Sign up Error", Toast.LENGTH_LONG)
-                        .show();
-                e.printStackTrace();
-            }
         }
     }
 

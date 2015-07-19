@@ -32,6 +32,7 @@ public class CleanSweepApplication extends Application {
         ParseObject.registerSubclass(Bid.class);
         ParseObject.registerSubclass(Taken.class);
 
+
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -66,6 +66,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         }
     }
 
+
     public String convertToAddress(ParseGeoPoint geoPoint) {
         String address = null;
         Geocoder geocoder;

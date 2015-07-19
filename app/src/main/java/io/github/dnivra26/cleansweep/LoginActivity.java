@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import org.androidannotations.annotations.Click;
@@ -63,9 +64,15 @@ public class LoginActivity extends AppCompatActivity {
             user.setPassword(password);
             try {
                 user.signUp();
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("username", username);
+                installation.save();
                 Toast.makeText(getApplicationContext(),
                         "Successfully Signed up, please log in.",
                         Toast.LENGTH_LONG).show();
+
+
+
             } catch (ParseException e) {
                 Toast.makeText(getApplicationContext(),
                         "Sign up Error", Toast.LENGTH_LONG)
@@ -97,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
 
 
         return super.onOptionsItemSelected(item);

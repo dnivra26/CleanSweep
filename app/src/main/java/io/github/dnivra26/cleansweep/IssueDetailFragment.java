@@ -12,12 +12,17 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
@@ -116,6 +121,24 @@ public class IssueDetailFragment extends Fragment {
             Toast.makeText(getActivity(), "Successfully signed up for task", Toast.LENGTH_LONG).show();
             getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
             getActivity().finish();
+
+
+            ParseQuery parseQuery = new ParseQuery("Bid");
+            parseQuery.whereEqualTo("issueId", issue.getObjectId());
+
+            List<Bid> bidList = parseQuery.find();
+
+            for (Bid bid : bidList) {
+
+                ParsePush parsePush = new ParsePush();
+                parsePush.setMessage("Activity Taken Up");
+                ParseQuery query = ParseInstallation.getQuery();
+                query.whereEqualTo("username", bid.getUser().fetchIfNeeded().getUsername());
+                parsePush.setQuery(query);
+                parsePush.send();
+            }
+
+
         } catch (ParseException e) {
             Toast.makeText(getActivity(), "Failed to sign up for task", Toast.LENGTH_LONG).show();
             e.printStackTrace();

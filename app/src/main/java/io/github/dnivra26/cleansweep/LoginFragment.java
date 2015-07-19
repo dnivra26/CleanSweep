@@ -5,11 +5,12 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
@@ -33,6 +34,10 @@ public class LoginFragment extends Fragment {
     @ViewById(R.id.issue_list)
     ListView issueList;
 
+    @ViewById(R.id.no_issues_label)
+    TextView noIssuesLabel;
+    private IssueListAdapter issueListAdapter;
+
 
     public LoginFragment() {
     }
@@ -51,10 +56,9 @@ public class LoginFragment extends Fragment {
         startActivity(new Intent(getActivity(), NewIssueActivity_.class));
     }
 
-    @AfterViews
     public void init() {
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Issue List");
-        IssueListAdapter issueListAdapter = new IssueListAdapter(getActivity());
+        issueListAdapter = new IssueListAdapter(getActivity());
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
         issueListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Issue>() {
             @Override
@@ -64,10 +68,18 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onLoaded(List<Issue> list, Exception e) {
+                if (list.size() > 0) {
+                    noIssuesLabel.setVisibility(View.GONE);
+                }
                 progressDialog.dismiss();
             }
         });
         issueList.setAdapter(issueListAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
 }

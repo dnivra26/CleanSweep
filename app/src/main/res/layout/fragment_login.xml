@@ -10,8 +10,8 @@
         android:id="@+id/issue_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0.5dp"
-        android:divider="@color/grey" />
+        android:divider="@color/grey"
+        android:dividerHeight="0.5dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -23,5 +23,14 @@
         app:backgroundTint="@color/base_blue"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/no_issues_label"
+        android:text="No Issues Yet!!"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
 </FrameLayout>

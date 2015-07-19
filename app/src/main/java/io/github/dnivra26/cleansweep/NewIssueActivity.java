@@ -1,5 +1,6 @@
 package io.github.dnivra26.cleansweep;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
@@ -19,6 +20,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -123,36 +125,55 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
     @Click(R.id.create_issue)
     public void createNewIssue() {
-        Issue newIssue = new Issue();
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+        progressDialog.show();
+
+        final Issue newIssue = new Issue();
         newIssue.setTitle(issueTitle.getText().toString());
         newIssue.setDescription(issueDescription.getText().toString());
         newIssue.setLocation(issueLocation.getText().toString());
         newIssue.setBid(Long.valueOf(initialBid.getText().toString()));
-        try {
-            issueImageFile.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        newIssue.setPhotoFile(issueImageFile);
 
 
-        try {
-            newIssue.save();
-            Toast.makeText(this, "New Issue created!", Toast.LENGTH_LONG).show();
 
-            Bid bid = new Bid();
-            bid.setBid(newIssue.getBid());
-            bid.setUser(ParseUser.getCurrentUser());
-            bid.setParent(newIssue);
+        issueImageFile.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    newIssue.setPhotoFile(issueImageFile);
+                    newIssue.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Bid bid = new Bid();
+                                bid.setBid(newIssue.getBid());
+                                bid.setUser(ParseUser.getCurrentUser());
+                                bid.setParent(newIssue);
 
-            bid.save();
+                                bid.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Toast.makeText(NewIssueActivity.this, "New Issue created!", Toast.LENGTH_LONG).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(NewIssueActivity.this, "Issue creation failed", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(NewIssueActivity.this, "Issue creation failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(NewIssueActivity.this, "Issue creation failed", Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
 
 
-            finish();
-        } catch (ParseException e) {
-            Toast.makeText(this, "Issue creation failed", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
     }
 
     @Override

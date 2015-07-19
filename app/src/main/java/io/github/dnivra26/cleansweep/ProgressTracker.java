@@ -140,6 +140,10 @@ public class ProgressTracker extends Fragment {
 
     @Click(R.id.save_work)
     public void saveWork() {
+        if ("".equals(workDescription.getText()) || workImageFile == null) {
+            Toast.makeText(getActivity().getApplicationContext(), "Description and photo are mandatory", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
         progressDialog.show();
 
@@ -185,6 +189,11 @@ public class ProgressTracker extends Fragment {
 
     @Click(R.id.submit_work)
     public void submitWork() {
+        if ("".equals(workDescription.getText().toString()) || workImageFile == null) {
+            Toast.makeText(getActivity().getApplicationContext(), "Description and photo are mandatory", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
         progressDialog.show();
 

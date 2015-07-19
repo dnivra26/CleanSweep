@@ -125,6 +125,12 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
     @Click(R.id.create_issue)
     public void createNewIssue() {
+        if ("".equals(issueTitle.getText().toString()) || "".equals(issueDescription.getText().toString())
+                || "".equals(issueLocation.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Titlle, description and location are manadatory", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
         progressDialog.show();
 

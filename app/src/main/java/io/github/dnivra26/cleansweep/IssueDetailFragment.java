@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +60,12 @@ public class IssueDetailFragment extends Fragment {
     @ViewById(R.id.new_bid_amount)
     EditText newBidAmount;
 
+    @ViewById(R.id.add_bid)
+    Button addFundButton;
+
+    @ViewById(R.id.take_up)
+    Button takeUpButton;
+
     public static IssueDetailFragment newInstance(Issue issue) {
         IssueDetailFragment issueDetailFragment = new IssueDetailFragment_();
         issueDetailFragment.setIssue(issue);
@@ -98,10 +105,17 @@ public class IssueDetailFragment extends Fragment {
     @Click(R.id.add_bid)
     public void addBidToIssue() {
         addFundLayout.setVisibility(View.VISIBLE);
+        addFundButton.setVisibility(View.INVISIBLE);
+        takeUpButton.setVisibility(View.INVISIBLE);
     }
 
     @Click(R.id.add_fund_ok)
     public void addFundConfirm() {
+        if ("".equals(newBidAmount.getText().toString())) {
+            Toast.makeText(getActivity().getApplicationContext(), "Enter the bid amount", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(getActivity());
         progressDialog.show();
 
@@ -131,6 +145,9 @@ public class IssueDetailFragment extends Fragment {
                     Toast.makeText(getActivity(), "Fund add failed", Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
+                addFundLayout.setVisibility(View.INVISIBLE);
+                addFundButton.setVisibility(View.VISIBLE);
+                takeUpButton.setVisibility(View.VISIBLE);
             }
         });
     }

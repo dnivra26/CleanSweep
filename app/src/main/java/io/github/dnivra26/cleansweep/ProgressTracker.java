@@ -234,13 +234,14 @@ public class ProgressTracker extends Fragment {
                                                 for (Object o1 : ((List) o)) {
                                                     Bid bid = ((Bid) o1);
                                                     final ParsePush parsePush = new ParsePush();
-                                                    parsePush.setMessage(issue.getTitle() + "has been completed");
+                                                    parsePush.setMessage(issue.getTitle() + "has been completed:"+taken.getObjectId());
                                                     final ParseQuery query = ParseInstallation.getQuery();
                                                     bid.getUser().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                                                         @Override
                                                         public void done(ParseObject parseObject, ParseException e) {
                                                             query.whereEqualTo("username", ((ParseUser) parseObject).getUsername());
                                                             parsePush.setQuery(query);
+
                                                             parsePush.sendInBackground();
                                                         }
                                                     });

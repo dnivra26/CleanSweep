@@ -24,6 +24,14 @@ public class Bid extends ParseObject {
         put("parent", issue);
     }
 
+    public void setSatisfied(boolean isSatisfied) {
+        put("isSatisified", isSatisfied);
+    }
+
+    public boolean isSatisfied() {
+        return getBoolean("isSatisified");
+    }
+
     public Issue getParent() {
         return (Issue) getParseObject("parent");
     }

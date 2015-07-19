@@ -94,6 +94,7 @@ public class IssueDetailFragment extends Fragment {
         Bid bid = new Bid();
         bid.setBid(Long.valueOf(newBidAmount.getText().toString()));
         bid.setUser(ParseUser.getCurrentUser());
+        bid.setSatisfied(false);
         bid.setParent(issue);
 
         try {

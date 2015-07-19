@@ -96,15 +96,18 @@ public class ProgressTracker extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        issueStatusImage.setImageBitmap(bp);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+        if (requestCode == 0 && data.getExtras() != null) {
+            Bitmap bp = (Bitmap) data.getExtras().get("data");
+            issueStatusImage.setImageBitmap(bp);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
 
-        workImageFile = new ParseFile("issue_image.jpg", byteArray);
+            workImageFile = new ParseFile("issue_image.jpg", byteArray);
+        }
     }
 
     @Click(R.id.save_work)

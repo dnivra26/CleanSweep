@@ -1,6 +1,5 @@
 package io.github.dnivra26.cleansweep;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
@@ -18,9 +17,8 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
-
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -34,7 +32,7 @@ import io.github.dnivra26.cleansweep.models.Bid;
 import io.github.dnivra26.cleansweep.models.Issue;
 
 @EActivity(R.layout.activity_new_issue)
-public class NewIssueActivity extends AppCompatActivity implements LocationListener{
+public class NewIssueActivity extends AppCompatActivity implements LocationListener {
 
 
     ParseFile issueImageFile;
@@ -57,7 +55,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
     @Click(R.id.issue_image)
     public void takePicture() {
-        String address="";
+        String address = "";
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
         ParseGeoPoint geoPoint = getGeoPoint();
@@ -82,15 +80,16 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
             e.printStackTrace();
         }
 
-        return address +","+ city;
+        return address + "," + city;
     }
+
     public ParseGeoPoint getGeoPoint() {
 
         boolean isNetworkEnabled = false;
         boolean isGPSEnabled = false;
-        Location location=null;
-        double latitude,longitude;
-        ParseGeoPoint point =new ParseGeoPoint();
+        Location location = null;
+        double latitude, longitude;
+        ParseGeoPoint point = new ParseGeoPoint();
         LocationManager locationmanager = null;
         locationmanager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         isGPSEnabled = locationmanager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -103,14 +102,12 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
 
             if (locationmanager != null) {
                 location = locationmanager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(location!=null) {
+                if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     point.setLongitude(longitude);
                     point.setLatitude(latitude);
-                }
-                else
-                {
+                } else {
                     return point;
                 }
             }
@@ -118,8 +115,7 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
         }
 
 
-
-         return point;
+        return point;
 
 
     }
@@ -161,15 +157,19 @@ public class NewIssueActivity extends AppCompatActivity implements LocationListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        issueImage.setImageBitmap(bp);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+        if (requestCode == 0 && data.getExtras() != null) {
+
+            Bitmap bp = (Bitmap) data.getExtras().get("data");
+            issueImage.setImageBitmap(bp);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
 
-        issueImageFile = new ParseFile("issue_image.jpg", byteArray);
+            issueImageFile = new ParseFile("issue_image.jpg", byteArray);
+        }
     }
 
     @Override

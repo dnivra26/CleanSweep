@@ -17,6 +17,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -30,6 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.password)
     EditText passwordEditText;
 
+
+    @AfterViews
+    public void init() {
+        getSupportActionBar().setTitle("Login");
+    }
 
     @Click(R.id.login)
     public void login() {
